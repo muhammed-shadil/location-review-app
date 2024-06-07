@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "555828603454",
+    "project_id": "location-review-c3e8b",
+    "storage_bucket": "location-review-c3e8b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:555828603454:android:f4a022ab9c724cebd1ff6f",
+        "android_client_info": {
+          "package_name": "com.example.location_review_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0J3ypgoUNI3F061EO3QxX1VBhBnkaXqs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
