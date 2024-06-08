@@ -4,6 +4,7 @@ import 'package:location_review_app/firebase_options.dart';
 import 'package:location_review_app/view/login_screen.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -20,6 +21,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LoginScreen();
+    return LoginScreenWrapper();
   }
 }

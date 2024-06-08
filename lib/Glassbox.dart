@@ -35,10 +35,12 @@ class Glassbox extends StatelessWidget {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        const Color.fromARGB(255, 250, 223, 141)
-                            .withOpacity(0.1),
-                        const Color.fromARGB(255, 250, 223, 141)
-                            .withOpacity(0.3)
+                        Colors.white.withOpacity(0.3),
+                        Colors.white.withOpacity(0.1),
+                        // const Color.fromARGB(255, 250, 223, 141)
+                        //     .withOpacity(0.1),
+                        // const Color.fromARGB(255, 250, 223, 141)
+                        //     .withOpacity(0.3)
                       ])),
             ),
             child

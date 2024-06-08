@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location_review_app/Glassbox.dart';
 import 'package:location_review_app/constants.dart';
@@ -45,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             );
           } else if (state is AuthLoading) {
-            CircularProgressIndicator();
+            const CircularProgressIndicator();
             // LoadingDialog.show(context);
             // const CustomLoadingAnimation();
           } else if (state is Authenticated) {
@@ -53,8 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(
-                      builder: (_) => const BottomNavigationWrapper()),
+                  MaterialPageRoute(builder: (_) => const BottomNavigation()),
                   (route) => false);
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
@@ -75,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
             height: MediaQuery.of(context).size.height,
             child: Center(
                 child: Glassbox(
-              width: MediaQuery.of(context).size.width * 0.8,
+              width: MediaQuery.of(context).size.width * 0.85,
               height: MediaQuery.of(context).size.height * 0.509,
               child: Center(
                 child: Container(
@@ -131,7 +129,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (_) => SignupScreen()));
+                                    builder: (_) =>
+                                        const SignupScreenWrapper()));
                           },
                           child: const Text(
                             "Don't you have an account signup?",
