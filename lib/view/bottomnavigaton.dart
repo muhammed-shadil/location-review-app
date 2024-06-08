@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location_review_app/controller/authentication/bloc/auth_bloc.dart';
+import 'package:location_review_app/view/homeScreen.dart';
 import 'package:location_review_app/view/login_screen.dart';
 
 class BottomNavigation extends StatelessWidget {
@@ -33,7 +34,13 @@ class BottomNavigationWrapper extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text("data"),
+          title: const Text("data"),
+          leading: IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => HomeScreen()));
+              },
+              icon: Icon(Icons.home)),
           actions: [
             IconButton(
                 onPressed: () {
@@ -44,12 +51,10 @@ class BottomNavigationWrapper extends StatelessWidget {
                           builder: (_) => const LoginScreenWrapper()),
                       (route) => false);
                 },
-                icon: Icon(Icons.login_outlined))
+                icon: const Icon(Icons.login_outlined))
           ],
         ),
-        body: Container(
-          child: Text("data"),
-        ),
+        body: const Text("data"),
       ),
     );
   }
