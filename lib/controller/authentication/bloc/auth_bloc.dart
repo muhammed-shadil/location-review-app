@@ -3,7 +3,9 @@ import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:doctors_book_app/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:location_review_app/model/user_model.dart';
+import 'package:location_review_app/services/current_location.dart';
 import 'package:meta/meta.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 
@@ -43,7 +45,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             .doc(user.uid)
             .set(usermodel.toMap());
 
-        emit(Authenticated(user));
+        emit(Authenticated(user: user));
       } else {
         emit(UnAuthenticated());
       }
@@ -67,11 +69,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           .signInWithEmailAndPassword(
               email: event.email, password: event.password);
 
+      final CurretLocation currentLocation = CurretLocation();
       final user = usercredential.user;
+      Position position = await currentLocation.determinePosition();
+      String address = await currentLocation.getAddress(position);
+
       if (user != null) {
-        emit(Authenticated(user));
-        // var sharedPref = await SharedPreferences.getInstance();
-        // sharedPref.setBool("loginkey", true);
+        await FirebaseFirestore.instance
+            .collection('users')
+            .where('email', isEqualTo: event.email)
+            .get()
+            .then((value) {
+          for (var doc in value.docs) {
+            doc.reference.update({'address': address});
+          }
+        });
+      }
+      if (user != null) {
+        emit(Authenticated(user: user, position: position));
       } else {
         emit(UnAuthenticated());
       }
@@ -124,7 +139,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       user = FirebaseAuth.instance.currentUser;
 
       if (user != null) {
-        emit(Authenticated(user));
+        emit(Authenticated(user: user));
       } else {
         emit(UnAuthenticated());
       }

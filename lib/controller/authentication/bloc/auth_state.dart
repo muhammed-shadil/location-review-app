@@ -10,9 +10,11 @@ class AuthLoading extends AuthState {}
 
 class Authenticated extends AuthState {
   User? user;
-  Authenticated(
+  Position? position;
+  Authenticated( {
     this.user,
-  );
+    this.position,
+  });
 }
 
 class UnAuthenticated extends AuthState {}

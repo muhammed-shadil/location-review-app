@@ -37,8 +37,8 @@ class BottomNavigationWrapper extends StatelessWidget {
           title: const Text("data"),
           leading: IconButton(
               onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => HomeScreen()));
+                // Navigator.push(
+                //     context, MaterialPageRoute(builder: (_) => HomeScreen()));
               },
               icon: Icon(Icons.home)),
           actions: [

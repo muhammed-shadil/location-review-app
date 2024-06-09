@@ -5,6 +5,7 @@ import 'package:location_review_app/constants.dart';
 import 'package:location_review_app/controller/authentication/bloc/auth_bloc.dart';
 import 'package:location_review_app/textfield.dart';
 import 'package:location_review_app/view/bottomnavigaton.dart';
+import 'package:location_review_app/view/homeScreen.dart';
 import 'package:location_review_app/view/signup_screen.dart';
 
 class LoginScreenWrapper extends StatelessWidget {
@@ -52,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (_) => const BottomNavigation()),
+                  MaterialPageRoute(builder: (_) =>  HomeScreen(position: state.position,)),
                   (route) => false);
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
