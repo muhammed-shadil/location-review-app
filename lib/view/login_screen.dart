@@ -53,7 +53,11 @@ class _LoginScreenState extends State<LoginScreen> {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (_) =>  HomeScreen(position: state.position,)),
+                  MaterialPageRoute(
+                      builder: (_) => HomeScreen(
+                            position: state.position,
+                            user: state.user!,
+                          )),
                   (route) => false);
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
@@ -82,86 +86,90 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: MediaQuery.of(context).size.width * 0.7,
                   child: Form(
                     key: constants.loginkey,
-                    child: Column(
-                      children: [
-                        const Text(
-                          "LOgin",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 20.0),
-                          child: mainTextfield(
-                            controller: emailcontroller,
-                            text: 'Enter your email',
-                            obscuretext: true,
-                            preficsicon: Icons.abc,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Please enter a valid email";
-                              } else if (!constants.regemail.hasMatch(value)) {
-                                return "Please enter a valid email";
-                              } else {
-                                return null;
-                              }
-                            },
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          const Text(
+                            "LOgin",
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 20.0),
-                          child: mainTextfield(
-                            controller: passwordcontroller,
-                            text: 'Enter you password',
-                            obscuretext: true,
-                            preficsicon: Icons.abc,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Please enter a password";
-                              } else if (!constants.paswd.hasMatch(value)) {
-                                return 'Password should contain at least one upper case, one lower case, one digit, one special character and  must be 8 characters in length';
-                              } else {
-                                return null;
-                              }
-                            },
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) =>
-                                        const SignupScreenWrapper()));
-                          },
-                          child: const Text(
-                            "Don't you have an account signup?",
-                            style: TextStyle(color: constants.white),
-                          ),
-                        ),
-                        Container(
-                          width: 200,
-                          height: 50,
-                          margin: const EdgeInsets.only(top: 20),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              if (constants.loginkey.currentState!.validate()) {
-                                BlocProvider.of<AuthBloc>(context).add(
-                                    LoginEvent(
-                                        email: emailcontroller.text,
-                                        password: passwordcontroller.text));
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: constants.black,
-                                foregroundColor: constants.white,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10))),
-                            child: const Text(
-                              "login",
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 20.0),
+                            child: mainTextfield(
+                              controller: emailcontroller,
+                              text: 'Enter your email',
+                              obscuretext: true,
+                              preficsicon: Icons.abc,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Please enter a valid email";
+                                } else if (!constants.regemail
+                                    .hasMatch(value)) {
+                                  return "Please enter a valid email";
+                                } else {
+                                  return null;
+                                }
+                              },
                             ),
                           ),
-                        )
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 20.0),
+                            child: mainTextfield(
+                              controller: passwordcontroller,
+                              text: 'Enter you password',
+                              obscuretext: true,
+                              preficsicon: Icons.abc,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Please enter a password";
+                                } else if (!constants.paswd.hasMatch(value)) {
+                                  return 'Password should contain at least one upper case, one lower case, one digit, one special character and  must be 8 characters in length';
+                                } else {
+                                  return null;
+                                }
+                              },
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) =>
+                                          const SignupScreenWrapper()));
+                            },
+                            child: const Text(
+                              "Don't you have an account signup?",
+                              style: TextStyle(color: constants.white),
+                            ),
+                          ),
+                          Container(
+                            width: 200,
+                            height: 50,
+                            margin: const EdgeInsets.only(top: 20),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                if (constants.loginkey.currentState!
+                                    .validate()) {
+                                  BlocProvider.of<AuthBloc>(context).add(
+                                      LoginEvent(
+                                          email: emailcontroller.text,
+                                          password: passwordcontroller.text));
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: constants.black,
+                                  foregroundColor: constants.white,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10))),
+                              child: const Text(
+                                "login",
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
