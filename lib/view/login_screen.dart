@@ -49,14 +49,16 @@ class _LoginScreenState extends State<LoginScreen> {
             // LoadingDialog.show(context);
             // const CustomLoadingAnimation();
           } else if (state is Authenticated) {
+
+            print("ssssssssssssssssssss${state.position}");
             // LoadingDialog.hide(context);
             WidgetsBinding.instance.addPostFrameCallback((_) {
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
-                      builder: (_) => HomeScreen(
-                            position: state.position,
-                            user: state.user!,
+                      builder: (_) => HomeScreenWrapper(
+                            // position: state.position,
+                            // user: state.user!,
                           )),
                   (route) => false);
               ScaffoldMessenger.of(context).showSnackBar(

@@ -83,118 +83,121 @@ class SignupScreen extends StatelessWidget {
                       width: MediaQuery.of(context).size.width * 0.7,
                       child: Form(
                         key: constants.signupkey,
-                        child: Column(
-                          children: [
-                            const Text(
-                              "Sign up",
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 20.0),
-                              child: mainTextfield(
-                                controller: emailcontroller,
-                                text: 'Enter your email',
-                                obscuretext: true,
-                                preficsicon: Icons.abc,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Please enter a valid email";
-                                  } else if (!constants.regemail
-                                      .hasMatch(value)) {
-                                    return "Please enter a valid email";
-                                  } else {
-                                    return null;
-                                  }
-                                },
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              const Text(
+                                "Sign up",
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
                               ),
-                            ),
-                            mainTextfield(
-                              controller: passwordcontroller,
-                              text: 'Enter you password',
-                              obscuretext: true,
-                              preficsicon: Icons.abc,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "Please enter a password";
-                                } else if (!constants.paswd.hasMatch(value)) {
-                                  return 'Password should contain at least one upper case, one lower case, one digit, one special character and  must be 8 characters in length';
-                                } else {
-                                  return null;
-                                }
-                              },
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 20.0),
-                              child: mainTextfield(
-                                controller: namecontroller,
-                                text: 'Enter your name',
-                                obscuretext: true,
-                                preficsicon: Icons.abc,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Please enter name";
-                                  } else if (!constants.name.hasMatch(value)) {
-                                    return "Enter a valid name";
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 20.0),
-                              child: mainTextfield(
-                                keyboard: TextInputType.phone,
-                                controller: phonecontroller,
-                                text: 'Enter your phone number',
-                                obscuretext: true,
-                                preficsicon: Icons.abc,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Please enter phone number";
-                                  } else if (value.length > 10) {
-                                    return "number must be 10";
-                                  } else if (!constants.phonreg
-                                      .hasMatch(value)) {
-                                    return "Please enter a valid number";
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ),
-                            Container(
-                              width: 200,
-                              height: 50,
-                              margin: const EdgeInsets.only(top: 20),
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  if (constants.signupkey.currentState!
-                                      .validate()) {
-                                    Usermodel usermode = Usermodel(
-                                        email: emailcontroller.text,
-                                        password: passwordcontroller.text,
-                                        phone: phonecontroller.text,
-                                        username: namecontroller.text);
-
-                                    BlocProvider.of<AuthBloc>(context)
-                                        .add(SignUpEvent(user: usermode));
-                                  }
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: constants.black,
-                                    foregroundColor: constants.white,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10))),
-                                child: const Text(
-                                  "Sign up",
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 20.0),
+                                child: mainTextfield(
+                                  controller: emailcontroller,
+                                  text: 'Enter your email',
+                                  obscuretext: true,
+                                  preficsicon: Icons.abc,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "Please enter a valid email";
+                                    } else if (!constants.regemail
+                                        .hasMatch(value)) {
+                                      return "Please enter a valid email";
+                                    } else {
+                                      return null;
+                                    }
+                                  },
                                 ),
                               ),
-                            )
-                          ],
+                              mainTextfield(
+                                controller: passwordcontroller,
+                                text: 'Enter you password',
+                                obscuretext: true,
+                                preficsicon: Icons.abc,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Please enter a password";
+                                  } else if (!constants.paswd.hasMatch(value)) {
+                                    return 'Password should contain at least one upper case, one lower case, one digit, one special character and  must be 8 characters in length';
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 20.0),
+                                child: mainTextfield(
+                                  controller: namecontroller,
+                                  text: 'Enter your name',
+                                  obscuretext: true,
+                                  preficsicon: Icons.abc,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "Please enter name";
+                                    } else if (!constants.name
+                                        .hasMatch(value)) {
+                                      return "Enter a valid name";
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 20.0),
+                                child: mainTextfield(
+                                  keyboard: TextInputType.phone,
+                                  controller: phonecontroller,
+                                  text: 'Enter your phone number',
+                                  obscuretext: true,
+                                  preficsicon: Icons.abc,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "Please enter phone number";
+                                    } else if (value.length > 10) {
+                                      return "number must be 10";
+                                    } else if (!constants.phonreg
+                                        .hasMatch(value)) {
+                                      return "Please enter a valid number";
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
+                              Container(
+                                width: 200,
+                                height: 50,
+                                margin: const EdgeInsets.only(top: 20),
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    if (constants.signupkey.currentState!
+                                        .validate()) {
+                                      Usermodel usermode = Usermodel(
+                                          email: emailcontroller.text,
+                                          password: passwordcontroller.text,
+                                          phone: phonecontroller.text,
+                                          username: namecontroller.text);
+
+                                      BlocProvider.of<AuthBloc>(context)
+                                          .add(SignUpEvent(user: usermode));
+                                    }
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: constants.black,
+                                      foregroundColor: constants.white,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10))),
+                                  child: const Text(
+                                    "Sign up",
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),

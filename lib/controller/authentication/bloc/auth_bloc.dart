@@ -18,7 +18,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SignUpEvent>(signupEvent);
     on<LoginEvent>(loginEvent);
     on<LogoutEvent>(logoutEvent);
-    on<UpdateEvent>(updateEvent);
+    // on<UpdateEvent>(updateEvent);
     on<LogoutConfirmEvent>(logoutconfirmEvent);
   }
 
@@ -81,7 +81,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             .get()
             .then((value) {
           for (var doc in value.docs) {
-            doc.reference.update({'address': address});
+            doc.reference.update({
+              'address': address,
+              'longitude': position.longitude,
+              "latitude": position.latitude
+            });
           }
         });
       }
@@ -111,26 +115,26 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  FutureOr<void> updateEvent(UpdateEvent event, Emitter<AuthState> emit) {
-    final usermodes = Usermodel(
-      email: event.user.email,
-      uid: event.user.uid,
-      age: event.user.age,
-      address: event.user.address,
-      username: event.user.username,
-      phone: event.user.phone,
-      image: event.user.image,
-    ).toMap();
-    try {
-      FirebaseFirestore.instance
-          .collection("users")
-          .doc(event.user.uid)
-          .update(usermodes);
-      emit(UpdateState());
-    } catch (e) {
-      emit(UpdationError(msg: e.toString()));
-    }
-  }
+  // FutureOr<void> updateEvent(UpdateEvent event, Emitter<AuthState> emit) {
+  //   final usermodes = Usermodel(
+  //     email: event.user.email,
+  //     uid: event.user.uid,
+  //     age: event.user.age,
+  //     address: event.user.address,
+  //     username: event.user.username,
+  //     phone: event.user.phone,
+  //     image: event.user.image,
+  //   ).toMap();
+  //   try {
+  //     FirebaseFirestore.instance
+  //         .collection("users")
+  //         .doc(event.user.uid)
+  //         .update(usermodes);
+  //     emit(UpdateState());
+  //   } catch (e) {
+  //     emit(UpdationError(msg: e.toString()));
+  //   }
+  // }
 
   FutureOr<void> checklogistatusEvent(
       CheckLoginStatusEvent event, Emitter<AuthState> emit) {
