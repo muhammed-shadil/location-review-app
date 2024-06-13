@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:location_review_app/model/user_model.dart';
 import 'package:location_review_app/view/alert_dialoge.dart';
 
-showBottomSheets(BuildContext context) {
+showBottomSheets(BuildContext context,Map<String, dynamic> user) {
   showModalBottomSheet(
     context: context,
     builder: (BuildContext context) {
@@ -20,7 +21,7 @@ showBottomSheets(BuildContext context) {
               alignment: Alignment.centerRight,
               child: ElevatedButton(
                 onPressed: () {
-                  showReviewDialog(context);
+                  showReviewDialog(context,user);
                   // Add button functionality
                 },
                 child: Icon(Icons.add),

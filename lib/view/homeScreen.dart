@@ -5,6 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:location_review_app/controller/authentication/bloc/auth_bloc.dart';
+import 'package:location_review_app/controller/review_bloc/review_bloc.dart';
 import 'package:location_review_app/controller/review_bottomsheet.dart';
 import 'package:location_review_app/view/fff.dart';
 import 'package:location_review_app/view/login_screen.dart'; // Ensure this import is correct
@@ -17,9 +18,16 @@ class HomeScreenWrapper extends StatelessWidget {
   // final Position? position;
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AuthBloc(),
-      child: HomeScreen(
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => AuthBloc(),
+        ),
+        BlocProvider(
+          create: (context) => ReviewBloc(),
+        ),
+      ],
+      child: const HomeScreen(
           // user: user,
           ),
     );
@@ -93,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
       // });}
       fetchedMarkers.add(Marker(
         onTap: () {
-          showBottomSheets(context);
+          showBottomSheets(context, locationData);
         },
         markerId: MarkerId(markerId),
         position: LatLng(latitude, longitude),
@@ -115,6 +123,8 @@ class _HomeScreenState extends State<HomeScreen> {
     print(
         "mrkerssssssssssssssssssssssssssssssssssssssssssssssssssssss$_markers");
     final authBloc = BlocProvider.of<AuthBloc>(context);
+
+    final revieBloc = BlocProvider.of<ReviewBloc>(context);
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is UnAuthenticated) {
@@ -150,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
           markers: _markers,
           initialCameraPosition: const CameraPosition(
             target: LatLng(11.2588, 75.7804),
-            zoom: 60,
+            zoom: 10,
           ),
         ),
       ),
