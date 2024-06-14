@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -14,8 +16,6 @@ class HomeScreenWrapper extends StatelessWidget {
   const HomeScreenWrapper({
     super.key,
   });
-  // final User user;
-  // final Position? position;
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -27,9 +27,7 @@ class HomeScreenWrapper extends StatelessWidget {
           create: (context) => ReviewBloc(),
         ),
       ],
-      child: const HomeScreen(
-          // user: user,
-          ),
+      child: const HomeScreen(),
     );
   }
 }
@@ -38,9 +36,6 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({
     super.key,
   });
-  // final Position? position;
-  // final User user;
-
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -136,18 +131,42 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       },
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            authBloc.add(LogoutEvent());
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (_) => const LoginScreenWrapper()),
-                (route) => false);
-          },
-          child: Icon(Icons.logout_outlined),
+        floatingActionButton: Stack(
+          children: [
+            Align(alignment: Alignment.bottomCenter,
+              child: FloatingActionButton(
+                onPressed: () {
+                  authBloc.add(LogoutEvent());
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const LoginScreenWrapper()),
+                      (route) => false);
+                },
+                child: const Icon(Icons.logout_outlined),
+              ),
+            ),
+            Align(
+              child: FloatingActionButton(
+                onPressed: () {
+                  authBloc.add(LogoutEvent());
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const LoginScreenWrapper()),
+                      (route) => false);
+                },
+                child: const Icon(Icons.logout_outlined),
+              ),
+            ),
+          ],
         ),
         appBar: AppBar(
-          title: const Text("google map"),
+          title: const Text(
+            "Google map",
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+          centerTitle: true,
         ),
         body: GoogleMap(
           mapType: MapType.hybrid,

@@ -47,17 +47,9 @@ class Splashscreen extends StatelessWidget {
         duration: const Duration(seconds: 3),
         backgroundColor: Colors.white,
         childWidget: SizedBox(
-          width: 200,
+          width: 400,
           height: 400,
-          child: Column(
-            children: [
-              Image.asset("asset/fff2946959.jpg"),
-              const Text(
-                "STUwelt",
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              )
-            ],
-          ),
+          child: Image.asset("asset/dd-removebg-preview.png"),
         ),
       ),
     );
