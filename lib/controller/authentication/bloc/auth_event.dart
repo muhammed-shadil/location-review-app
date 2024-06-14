@@ -19,11 +19,3 @@ class SignUpEvent extends AuthEvent {
 }
 
 class LogoutEvent extends AuthEvent {}
-
-class UpdateEvent extends AuthEvent {
-  final Usermodel user;
-
-  UpdateEvent({required this.user});
-}
-
-class LogoutConfirmEvent extends AuthEvent {}

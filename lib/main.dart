@@ -17,9 +17,33 @@ void main() async {
         create: (context) => ReviewBloc(),
       )
     ],
-    child: const MaterialApp(
+    child: MaterialApp(
+      title: 'GeoReview',
+      theme: ThemeData(
+        primaryColor: const Color(0xFF415a77),
+        hintColor: const Color(0xFF778da9),
+        iconButtonTheme: IconButtonThemeData(
+            style:
+                IconButton.styleFrom(foregroundColor: const Color(0xFFe0e1dd))),
+        textTheme: const TextTheme(
+          bodyLarge: TextStyle(color: Color(0xFF212121)),
+          bodyMedium: TextStyle(color: Color(0xFF212121)),
+        ),
+        appBarTheme: const AppBarTheme(
+          color: Color(0xFF415a77),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            foregroundColor: const Color(0xFFe0e1dd),
+            backgroundColor: const Color(0xFF778da9), // Background color
+          ),
+        ),
+        bottomSheetTheme: const BottomSheetThemeData(
+          backgroundColor: Color(0xFFe0e1dd),
+        ),
+      ),
       debugShowCheckedModeBanner: false,
-      home: Scaffold(body: MyApp()),
+      home: const Scaffold(body: MyApp()),
     ),
   ));
 }

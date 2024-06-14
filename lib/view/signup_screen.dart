@@ -5,6 +5,7 @@ import 'package:location_review_app/constants.dart';
 import 'package:location_review_app/controller/authentication/bloc/auth_bloc.dart';
 import 'package:location_review_app/model/user_model.dart';
 import 'package:location_review_app/textfield.dart';
+import 'package:location_review_app/view/loading.dart';
 import 'package:location_review_app/view/login_screen.dart';
 
 class SignupScreenWrapper extends StatelessWidget {
@@ -32,23 +33,23 @@ class SignupScreen extends StatelessWidget {
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthenticatedError) {
-            // LoadingDialog.hide(context);
+            LoadingDialog.hide(context);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(state.message),
               ),
             );
           } else if (state is AuthLoading) {
-            // LoadingDialog.show(context);
+            LoadingDialog.show(context);
           } else if (state is Networkauthenticatederor) {
-            // LoadingDialog.hide(context);
+            LoadingDialog.hide(context);
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text("No  intrnet connection !!!"),
               ),
             );
           } else if (state is Authenticated) {
-            // LoadingDialog.hide(context);
+            LoadingDialog.hide(context);
             WidgetsBinding.instance.addPostFrameCallback((_) {
               Navigator.pushAndRemoveUntil(
                   context,

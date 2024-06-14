@@ -41,8 +41,12 @@ showBottomSheets(BuildContext context, Map<String, dynamic> user) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(child: CircularProgressIndicator());
                       } else if (snapshot.hasError) {
-                        return Text("data");
-                      } else if (snapshot.hasData) {
+                        return const Center(child: Text("Error loading data"));
+                      } else if (!snapshot.hasData ||
+                          snapshot.data!.docs.isEmpty) {
+                        return const Center(
+                            child: Text("No reviews available"));
+                      } else {
                         return ListView.separated(
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: (BuildContext context, int index) {
@@ -57,11 +61,15 @@ showBottomSheets(BuildContext context, Map<String, dynamic> user) {
                                 // List tile functionality
                               },
                             );
-                          }, separatorBuilder: (BuildContext context, int index) { return const Divider(endIndent: 10,indent: 10,); },
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return const Divider(
+                              endIndent: 10,
+                              indent: 10,
+                            );
+                          },
                         );
                       }
-                      return const Text(
-                          "datassssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
                     }),
               ),
 

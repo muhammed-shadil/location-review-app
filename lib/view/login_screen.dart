@@ -4,8 +4,8 @@ import 'package:location_review_app/Glassbox.dart';
 import 'package:location_review_app/constants.dart';
 import 'package:location_review_app/controller/authentication/bloc/auth_bloc.dart';
 import 'package:location_review_app/textfield.dart';
-import 'package:location_review_app/view/bottomnavigaton.dart';
 import 'package:location_review_app/view/homeScreen.dart';
+import 'package:location_review_app/view/loading.dart';
 import 'package:location_review_app/view/signup_screen.dart';
 
 class LoginScreenWrapper extends StatelessWidget {
@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthenticatedError) {
-            // LoadingDialog.hide(context);
+            LoadingDialog.hide(context);
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text(
@@ -46,19 +46,16 @@ class _LoginScreenState extends State<LoginScreen> {
             );
           } else if (state is AuthLoading) {
             const CircularProgressIndicator();
-            // LoadingDialog.show(context);
-            // const CustomLoadingAnimation();
+            LoadingDialog.show(context);
           } else if (state is Authenticated) {
-
-            print("ssssssssssssssssssss${state.position}");
-            // LoadingDialog.hide(context);
+            LoadingDialog.hide(context);
             WidgetsBinding.instance.addPostFrameCallback((_) {
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
-                      builder: (_) => HomeScreenWrapper(
-                            // position: state.position,
-                            // user: state.user!,
+                      builder: (_) => const HomeScreenWrapper(
+                          // position: state.position,
+                          // user: state.user!,
                           )),
                   (route) => false);
               ScaffoldMessenger.of(context).showSnackBar(

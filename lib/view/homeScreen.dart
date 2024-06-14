@@ -1,15 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:location_review_app/controller/authentication/bloc/auth_bloc.dart';
 import 'package:location_review_app/controller/review_bloc/review_bloc.dart';
 import 'package:location_review_app/controller/review_bottomsheet.dart';
-import 'package:location_review_app/view/fff.dart';
+import 'package:location_review_app/view/custom_marker.dart.dart';
 import 'package:location_review_app/view/login_screen.dart'; // Ensure this import is correct
 
 class HomeScreenWrapper extends StatelessWidget {
@@ -47,27 +43,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    // _addCustomMarker();
     _fetchMarkers();
   }
-
-  // Future<void> _addCustomMarker() async {
-  //   final BitmapDescriptor markerIcons = await createCustomMarker("shadil");
-  //   setState(() {
-  //     markerIcon = markerIcons;
-  //   });
-
-  // Add the user's current location marker
-  // _markers.add(
-  //   Marker(
-  //     markerId: const MarkerId("current_location"),
-  //     position: LatLng(widget.position!.latitude, widget.position!.longitude),
-  //     infoWindow: const InfoWindow(
-  //         title: "Your Location", snippet: "This is your current location"),
-  //     icon: markerIcons,
-  //   ),
-  // );
-  // }
 
   Future<void> _fetchMarkers() async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -80,20 +57,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
     for (var data in allData) {
       var locationData = data as Map<String, dynamic>;
-      print(locationData);
-      print(locationData['latitude']);
-      print(locationData['latitude']);
       double latitude = locationData['latitude'];
       double longitude = locationData['longitude'];
       String markerId = locationData['uid'];
       String title = locationData['username'];
       String snippet = locationData['address'];
-//  Future<void> _addCustomMarker() async {
       final BitmapDescriptor markerIcons =
           await createCustomMarker(locationData['username']);
-      // setState(() {
-      //   markerIcon = markerIcons;
-      // });}
+
       fetchedMarkers.add(Marker(
         onTap: () {
           showBottomSheets(context, locationData);
@@ -106,17 +77,12 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     setState(() {
-      print("fetcher$fetchedMarkers");
-
       _markers.addAll(fetchedMarkers);
-      print("mrker$_markers");
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    print(
-        "mrkerssssssssssssssssssssssssssssssssssssssssssssssssssssss$_markers");
     final authBloc = BlocProvider.of<AuthBloc>(context);
 
     final revieBloc = BlocProvider.of<ReviewBloc>(context);
@@ -131,39 +97,21 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       },
       child: Scaffold(
-        floatingActionButton: Stack(
-          children: [
-            Align(alignment: Alignment.bottomCenter,
-              child: FloatingActionButton(
-                onPressed: () {
-                  authBloc.add(LogoutEvent());
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const LoginScreenWrapper()),
-                      (route) => false);
-                },
-                child: const Icon(Icons.logout_outlined),
-              ),
-            ),
-            Align(
-              child: FloatingActionButton(
-                onPressed: () {
-                  authBloc.add(LogoutEvent());
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const LoginScreenWrapper()),
-                      (route) => false);
-                },
-                child: const Icon(Icons.logout_outlined),
-              ),
-            ),
-          ],
-        ),
         appBar: AppBar(
+          actions: [
+            IconButton(
+                onPressed: () {
+                  authBloc.add(LogoutEvent());
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const LoginScreenWrapper()),
+                      (route) => false);
+                },
+                icon: const Icon(Icons.logout_outlined))
+          ],
           title: const Text(
-            "Google map",
+            "GeoReview",
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           centerTitle: true,
@@ -173,7 +121,6 @@ class _HomeScreenState extends State<HomeScreen> {
           onMapCreated: (GoogleMapController controller) {
             _controller = controller;
           },
-          // onTap: (argument) {},
           indoorViewEnabled: true,
           fortyFiveDegreeImageryEnabled: true,
           markers: _markers,

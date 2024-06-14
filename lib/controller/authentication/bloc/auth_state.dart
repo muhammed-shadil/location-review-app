@@ -31,14 +31,3 @@ class Networkauthenticatederor extends AuthState {
     required this.message,
   });
 }
-
-class UpdateState extends AuthState {}
-
-class UpdationError extends AuthState {
-  final String msg;
-  UpdationError({
-    required this.msg,
-  });
-}
-
-class LogoutConfirm extends AuthState {}

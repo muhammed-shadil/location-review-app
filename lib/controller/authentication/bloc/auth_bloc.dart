@@ -18,8 +18,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SignUpEvent>(signupEvent);
     on<LoginEvent>(loginEvent);
     on<LogoutEvent>(logoutEvent);
-    // on<UpdateEvent>(updateEvent);
-    on<LogoutConfirmEvent>(logoutconfirmEvent);
   }
 
   FutureOr<void> signupEvent(SignUpEvent event, Emitter<AuthState> emit) async {
@@ -65,32 +63,35 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   FutureOr<void> loginEvent(LoginEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     try {
-      final usercredential = await FirebaseAuth.instance
+      final userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(
               email: event.email, password: event.password);
 
-      final CurretLocation currentLocation = CurretLocation();
-      final user = usercredential.user;
-      Position position = await currentLocation.determinePosition();
-      String address = await currentLocation.getAddress(position);
-
+      final user = userCredential.user;
       if (user != null) {
-        await FirebaseFirestore.instance
+        final userDoc = await FirebaseFirestore.instance
             .collection('users')
-            .where('email', isEqualTo: event.email)
-            .get()
-            .then((value) {
-          for (var doc in value.docs) {
-            doc.reference.update({
-              'address': address,
-              'longitude': position.longitude,
-              "latitude": position.latitude
-            });
-          }
-        });
-      }
-      if (user != null) {
-        emit(Authenticated(user: user, position: position));
+            .doc(user.uid)
+            .get();
+
+        if (!userDoc.exists || userDoc.data()!['address'] == null) {
+          final currentLocation = CurretLocation();
+          Position position = await currentLocation.determinePosition();
+          String address = await currentLocation.getAddress(position);
+
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .update({
+            'address': address,
+            'longitude': position.longitude,
+            'latitude': position.latitude
+          });
+
+          emit(Authenticated(user: user, position: position));
+        } else {
+          emit(Authenticated(user: user));
+        }
       } else {
         emit(UnAuthenticated());
       }
@@ -108,33 +109,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       await FirebaseAuth.instance.signOut();
 
       emit(UnAuthenticated());
-      // var sharedPref = await SharedPreferences.getInstance();
-      // sharedPref.setBool("loginkey", false);
     } catch (e) {
       emit(AuthenticatedError(message: e.toString()));
     }
   }
-
-  // FutureOr<void> updateEvent(UpdateEvent event, Emitter<AuthState> emit) {
-  //   final usermodes = Usermodel(
-  //     email: event.user.email,
-  //     uid: event.user.uid,
-  //     age: event.user.age,
-  //     address: event.user.address,
-  //     username: event.user.username,
-  //     phone: event.user.phone,
-  //     image: event.user.image,
-  //   ).toMap();
-  //   try {
-  //     FirebaseFirestore.instance
-  //         .collection("users")
-  //         .doc(event.user.uid)
-  //         .update(usermodes);
-  //     emit(UpdateState());
-  //   } catch (e) {
-  //     emit(UpdationError(msg: e.toString()));
-  //   }
-  // }
 
   FutureOr<void> checklogistatusEvent(
       CheckLoginStatusEvent event, Emitter<AuthState> emit) {
@@ -150,10 +128,5 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } catch (e) {
       emit(AuthenticatedError(message: e.toString()));
     }
-  }
-
-  FutureOr<void> logoutconfirmEvent(
-      LogoutConfirmEvent event, Emitter<AuthState> emit) {
-    emit(LogoutConfirm());
   }
 }
