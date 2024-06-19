@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:location_review_app/view/alert_dialoge.dart';
+import 'package:location_review_app/view/widgets/alert_dialoge.dart';
 
 showBottomSheets(BuildContext context, Map<String, dynamic> user) {
   showModalBottomSheet(
@@ -57,9 +57,6 @@ showBottomSheets(BuildContext context, Map<String, dynamic> user) {
                               leading: const Icon(Icons.list),
                               title: Text(reviewdata["userName"]),
                               subtitle: Text(reviewdata["reviewText"]),
-                              onTap: () {
-                                // List tile functionality
-                              },
                             );
                           },
                           separatorBuilder: (BuildContext context, int index) {
@@ -72,15 +69,6 @@ showBottomSheets(BuildContext context, Map<String, dynamic> user) {
                       }
                     }),
               ),
-
-              // ListTile(
-              //   leading: Icon(Icons.list),
-              //   title: Text('Item 2'),
-              //   onTap: () {
-              //     // List tile functionality
-              //   },
-              // ),
-              // Add more list tiles as needed
             ],
           ),
         ),

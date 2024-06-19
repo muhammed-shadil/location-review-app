@@ -56,6 +56,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                 "The email address is already in use by another account."));
       } else {
         emit(AuthenticatedError(message: e.toString()));
+      
       }
     }
   }

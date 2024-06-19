@@ -5,8 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location_review_app/controller/authentication/bloc/auth_bloc.dart';
-import 'package:location_review_app/view/homeScreen.dart';
-import 'package:location_review_app/view/login_screen.dart';
+import 'package:location_review_app/view/screens/homeScreen.dart';
+import 'package:location_review_app/view/screens/login_screen.dart';
 
 class SplashScreenWrapper extends StatelessWidget {
   const SplashScreenWrapper({super.key});
@@ -29,14 +29,8 @@ class Splashscreen extends StatelessWidget {
       listener: (context, state) async {
         Timer(const Duration(seconds: 3), () {
           if (state is Authenticated) {
-            print("wwwwwwwwwwwwwwwwww${state.position}");
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => HomeScreenWrapper(
-                          // position: state.position,
-                          // user: user!,
-                        )));
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (_) => const HomeScreenWrapper()));
           } else if (state is UnAuthenticated) {
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (_) => const LoginScreenWrapper()));

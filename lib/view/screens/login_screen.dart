@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:location_review_app/Glassbox.dart';
+import 'package:location_review_app/view/widgets/Glassbox.dart';
 import 'package:location_review_app/constants.dart';
 import 'package:location_review_app/controller/authentication/bloc/auth_bloc.dart';
-import 'package:location_review_app/textfield.dart';
-import 'package:location_review_app/view/homeScreen.dart';
-import 'package:location_review_app/view/loading.dart';
-import 'package:location_review_app/view/signup_screen.dart';
+import 'package:location_review_app/view/widgets/textfield.dart';
+import 'package:location_review_app/view/screens/homeScreen.dart';
+import 'package:location_review_app/view/widgets/loading.dart';
+import 'package:location_review_app/view/screens/signup_screen.dart';
 
 class LoginScreenWrapper extends StatelessWidget {
   const LoginScreenWrapper({super.key});
@@ -54,8 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   context,
                   MaterialPageRoute(
                       builder: (_) => const HomeScreenWrapper(
-                          // position: state.position,
-                          // user: state.user!,
+                         
                           )),
                   (route) => false);
               ScaffoldMessenger.of(context).showSnackBar(

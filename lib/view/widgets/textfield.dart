@@ -45,45 +45,8 @@ class mainTextfield extends StatelessWidget {
         border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(10)),
             borderSide: BorderSide.none),
-        // enabledBorder: const OutlineInputBorder(
-        //     borderRadius: BorderRadius.all(Radius.circular(20)),
-        //     borderSide: BorderSide.none),
-        // disabledBorder: const OutlineInputBorder(
-        //   borderRadius: BorderRadius.all(Radius.circular(20)),
-        //   borderSide: BorderSide(
-        //     color: Color.fromRGBO(68, 73, 53, 1),
-        //     width: 0.55,
-        //   ),
-        // ),
-        // errorBorder: const OutlineInputBorder(
-        //   borderRadius: BorderRadius.all(Radius.circular(20)),
-        //   borderSide: BorderSide(
-        //     color: Color.fromARGB(255, 68, 73, 53),
-        //     width: 0.55,
-        //   ),
-        // ),
-        // focusedBorder: const OutlineInputBorder(
-        //   borderRadius: BorderRadius.all(Radius.circular(20)),
-        //   borderSide: BorderSide(
-        //     color: Color.fromARGB(255, 68, 73, 53),
-        //     width: 1.5,
-        //   ),
-        // ),
         hintStyle: const TextStyle(),
         hintText: text,
-        // suffixIcon:
-        //  (obscuretext)
-        // ? IconButton(
-        //     color: Colorpalette.primarycolor,
-        //     onPressed: () {
-        //       context.read<PasswordCubit>().visibilityicon();
-        //     },
-        //     icon: Icon(ispasswordvisible
-        //         ? Icons.visibility
-        //         : Icons.visibility_off),
-        //   )
-        // : null,
-        // contentPadding: const EdgeInsets.symmetric(vertical: 7)
       ),
     );
   }

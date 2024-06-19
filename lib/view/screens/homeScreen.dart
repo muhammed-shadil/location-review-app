@@ -1,12 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:location_review_app/controller/authentication/bloc/auth_bloc.dart';
 import 'package:location_review_app/controller/review_bloc/review_bloc.dart';
-import 'package:location_review_app/controller/review_bottomsheet.dart';
-import 'package:location_review_app/view/custom_marker.dart.dart';
-import 'package:location_review_app/view/login_screen.dart'; // Ensure this import is correct
+import 'package:location_review_app/view/screens/review_bottomsheet.dart';
+import 'package:location_review_app/view/widgets/custom_marker.dart.dart';
+import 'package:location_review_app/view/screens/login_screen.dart';
 
 class HomeScreenWrapper extends StatelessWidget {
   const HomeScreenWrapper({
@@ -37,54 +38,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final user = FirebaseAuth.instance.currentUser;
   BitmapDescriptor? markerIcon;
   final Set<Marker> _markers = {};
   GoogleMapController? _controller;
+  final LatLng _initialPosition = const LatLng(11.2588, 75.7804);
   @override
   void initState() {
     super.initState();
     _fetchMarkers();
   }
 
-  Future<void> _fetchMarkers() async {
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-    CollectionReference locations = firestore.collection('users');
-
-    QuerySnapshot querySnapshot = await locations.get();
-    final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
-
-    Set<Marker> fetchedMarkers = {};
-
-    for (var data in allData) {
-      var locationData = data as Map<String, dynamic>;
-      double latitude = locationData['latitude'];
-      double longitude = locationData['longitude'];
-      String markerId = locationData['uid'];
-      String title = locationData['username'];
-      String snippet = locationData['address'];
-      final BitmapDescriptor markerIcons =
-          await createCustomMarker(locationData['username']);
-
-      fetchedMarkers.add(Marker(
-        onTap: () {
-          showBottomSheets(context, locationData);
-        },
-        markerId: MarkerId(markerId),
-        position: LatLng(latitude, longitude),
-        infoWindow: InfoWindow(title: title, snippet: snippet),
-        icon: markerIcons,
-      ));
-    }
-
-    setState(() {
-      _markers.addAll(fetchedMarkers);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final authBloc = BlocProvider.of<AuthBloc>(context);
-
+    print(_markers);
     final revieBloc = BlocProvider.of<ReviewBloc>(context);
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
@@ -124,12 +92,58 @@ class _HomeScreenState extends State<HomeScreen> {
           indoorViewEnabled: true,
           fortyFiveDegreeImageryEnabled: true,
           markers: _markers,
-          initialCameraPosition: const CameraPosition(
-            target: LatLng(11.2588, 75.7804),
+          initialCameraPosition: CameraPosition(
+            target: _initialPosition,
             zoom: 10,
           ),
         ),
       ),
     );
+  }
+
+  Future<void> _fetchMarkers() async {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    CollectionReference locations = firestore.collection('users');
+
+    QuerySnapshot querySnapshot = await locations.get();
+    final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+    Set<Marker> fetchedMarkers = {};
+    for (var data in allData) {
+      var locationData = data as Map<String, dynamic>;
+      double latitude = locationData['latitude'];
+      double longitude = locationData['longitude'];
+      String markerId = locationData['uid'];
+      String title = locationData['username'];
+      String snippet = locationData['address'];
+      final BitmapDescriptor markerIcons =
+          await createCustomMarker(locationData['username']);
+
+      if (markerId == user!.uid) {
+        _controller!.moveCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(
+              target: LatLng(latitude, longitude),
+              zoom: 14.0, // Adjust the zoom level as needed
+            ),
+          ),
+        );
+      }
+      fetchedMarkers.add(Marker(
+        onTap: () {
+          showBottomSheets(context, locationData);
+        },
+        markerId: MarkerId(markerId),
+        position: LatLng(latitude, longitude),
+        infoWindow: InfoWindow(title: title, snippet: snippet),
+        icon: markerIcons,
+      )
+      );
+    }
+
+    print("ssssssssss${fetchedMarkers}");
+    setState(() {
+      _markers.addAll(fetchedMarkers);
+    });
   }
 }

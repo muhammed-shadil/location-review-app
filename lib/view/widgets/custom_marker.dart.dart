@@ -12,7 +12,7 @@ Future<BitmapDescriptor> createCustomMarker(String initial) async {
   final Paint borderPaint = Paint()
     ..color = const ui.Color.fromARGB(255, 220, 222, 226)
     ..style = PaintingStyle.stroke
-    ..strokeWidth = 10.0;
+    ..strokeWidth = 15.0;
   final Paint fillPaint = Paint()
     ..color = Colors.blue
     ..style = PaintingStyle.fill;

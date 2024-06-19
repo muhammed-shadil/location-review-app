@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:location_review_app/Glassbox.dart';
+import 'package:location_review_app/view/widgets/Glassbox.dart';
 import 'package:location_review_app/constants.dart';
 import 'package:location_review_app/controller/authentication/bloc/auth_bloc.dart';
 import 'package:location_review_app/model/user_model.dart';
-import 'package:location_review_app/textfield.dart';
-import 'package:location_review_app/view/loading.dart';
-import 'package:location_review_app/view/login_screen.dart';
+import 'package:location_review_app/view/widgets/textfield.dart';
+import 'package:location_review_app/view/widgets/loading.dart';
+import 'package:location_review_app/view/screens/login_screen.dart';
 
 class SignupScreenWrapper extends StatelessWidget {
   const SignupScreenWrapper({super.key});

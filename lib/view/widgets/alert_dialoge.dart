@@ -1,10 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:location_review_app/controller/authentication/bloc/auth_bloc.dart';
 import 'package:location_review_app/controller/review_bloc/review_bloc.dart';
-import 'package:location_review_app/model/user_model.dart';
 
 Future<void> showReviewDialog(
     BuildContext context, Map<String, dynamic> user) async {
@@ -16,7 +12,7 @@ Future<void> showReviewDialog(
     builder: (context) {
       return BlocListener<ReviewBloc, ReviewState>(
         listener: (context, state) {
-          log('current state is $state');
+          // log('current state is $state');
         },
         child: AlertDialog(
           title: const Text('Add Review'),
@@ -41,8 +37,8 @@ Future<void> showReviewDialog(
             ElevatedButton(
               onPressed: () async {
                 if (formKey.currentState!.validate()) {
-                  log('current state of form ${formKey.currentState}');
-                  BlocProvider.of<ReviewBloc>(context).add(
+                  // log('current state of form ${formKey.currentState}');
+                 reviewBloc.add(
                       Addreview(comment: commentController.text, user: user));
                 }
                 Navigator.pop(context);

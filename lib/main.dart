@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location_review_app/controller/review_bloc/review_bloc.dart';
 import 'package:location_review_app/firebase_options.dart';
-import 'package:location_review_app/view/login_screen.dart';
-import 'package:location_review_app/view/splashScreeen.dart';
+import 'package:location_review_app/view/screens/login_screen.dart';
+import 'package:location_review_app/view/screens/splashScreeen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

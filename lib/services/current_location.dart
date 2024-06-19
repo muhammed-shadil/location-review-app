@@ -28,10 +28,10 @@ class CurretLocation {
   }
 
   Future<String> getAddress(Position position) async {
-    print('getting address...');
+   
     List<Placemark> placeMark =
         await placemarkFromCoordinates(position.latitude, position.longitude);
-    print('printing address: ${placeMark}');
+  
     Placemark place = placeMark[2];
     String Address =
         '${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}, ${place.postalCode}';

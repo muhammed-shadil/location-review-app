@@ -12,3 +12,10 @@ class Addreview extends ReviewEvent {
     required this.user,
   });
 }
+
+class fetchmarker extends ReviewEvent {
+  Set<Marker> fetchedMarkers;
+  fetchmarker({
+    required this.fetchedMarkers,
+  });
+}
